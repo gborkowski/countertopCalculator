@@ -1,0 +1,46 @@
+* {
+margin: 0;
+font-family: sans-serif;
+}
+
+.app {
+background-color: #fafafa;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.app_header {
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+  object-fit: contain;
+}
+
+.app__form {
+  padding: 5px;
+  width: 200px;
+}
+
+form label{
+  display: block;
+  padding-top: 20px;
+}
+
+form input{
+  display: block;
+  width: 100%;
+}
+
+form input:focus{
+  background-color: rgb(233, 233, 233);
+}
+
+form select{
+  display: block;
+  width: 100%;
+}
+
+.app__results {
+  border: 1px solid lightgray;
+  padding: 15px;
+}
