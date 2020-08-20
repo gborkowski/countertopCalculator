@@ -21,10 +21,11 @@ function App() {
         <CalcForm onChangeValue={handleChangeValue}/>
       </div>
       <div className="app_results">
-      <b>Material Cost: $</b>{costResult.costFixed}
+      <b>Material Cost: $</b>{ parseInt(costResult.costFixed) || 0}
       <br />
-      <b>Labor Cost: $</b>{costResult.laborFixed} 
-
+      <b>Labor Cost: $</b>{parseInt(costResult.laborFixed) || 0} 
+      <br />
+      <b>Project Total: $</b>{parseInt(costResult.costFixed + costResult.laborFixed) || 0} 
       </div>
     </div>
   );
