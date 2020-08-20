@@ -21,7 +21,7 @@ function App() {
         <CalcForm onChangeValue={handleChangeValue}/>
       </div>
       <div className="app_results">
-      <b>Project Cost: $</b>{costResult.cost}
+      <b>Project Cost: $</b>{costResult.costFixed}
       </div>
     </div>
   );
