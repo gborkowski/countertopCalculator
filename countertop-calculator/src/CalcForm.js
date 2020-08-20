@@ -1,8 +1,26 @@
 import React, {useState} from 'react';
+import firebase from "firebase";
+require("firebase/functions");
 
 
-function CalcForm () {
+function CalcForm (props) {
  
+    const firebaseConfig = {
+        apiKey: "AIzaSyDMV7NiEvOkK04idU-jz56NJcC9nITEnxM",
+        authDomain: "countertopcalculator.firebaseapp.com",
+        databaseURL: "https://countertopcalculator.firebaseio.com",
+        projectId: "countertopcalculator",
+        storageBucket: "countertopcalculator.appspot.com",
+        messagingSenderId: "438842232630",
+        appId: "1:438842232630:web:3b719c7e1c243225ec2d97",
+        measurementId: "G-K6JZT0H6TM"
+    };
+    if(!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    var costResult="";
+
  // classes automatically have 'props' - can just use it
  // classes should capitalize first letter of name
  const [species, setSpecies] = useState('walnut');
@@ -27,15 +45,33 @@ function CalcForm () {
         console.log("rustic: ",rustic)        
         console.log("addColor: ",addColor)        
         console.log("finish: ",finish)        
+ 
+        var cost = firebase.functions().httpsCallable('calculateCountertopCost');
+
+        cost({
+            species: species,
+            width: width,
+            length: length,
+            thickness: thickness,
+            breadBoards: breadBoards,
+            minBoardWidth: minBoardWidth,
+            rustic: rustic,
+            addColor: addColor,
+            finish: finish
+     }).then((result)=> {
+        console.log("result.data.cost: ",result.data.cost);
+        // pass costResult back to parent using handler passed in - how?
+        props.onChangeValue(result.data.cost);
+ 
+
+ 
+             }).catch((error)=> {
+        console.log(error);   
+     })
     };
 
 
-   
-    // add rustic checkbox (knots, defects)
-    // add applyColor t/f
-    // add finish (select - Rubio Monocoat, Arm-r-seal, Odies Oil)
-
-        return (
+         return (
             <form className="app__form">
                 <label>Wood Species</label>
                  <select  value={species} onChange={e => setSpecies(e.target.value)}>
@@ -100,9 +136,7 @@ function CalcForm () {
                 </select>
                 <br />
                 <button onClick={e => onSubmit(e)}>Calculate Cost</button>
-
             </form>
-
         )
 
 }
