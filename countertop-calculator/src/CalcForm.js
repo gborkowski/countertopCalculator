@@ -45,9 +45,14 @@ function CalcForm (props) {
         console.log("rustic: ",rustic)        
         console.log("addColor: ",addColor)        
         console.log("finish: ",finish)        
- 
-        var cost = firebase.functions().httpsCallable('calculateCountertopCost');
 
+        // This is for production
+        var cost = firebase.functions().httpsCallable('calculateCountertopCost');
+        
+        // This is for local dev
+        //firebase.functions().useFunctionsEmulator('http://localhost:5001');
+        //var cost = firebase.functions().httpsCallable('calculateCountertopCost');
+        
         cost({
             species: species,
             width: width,
@@ -59,6 +64,9 @@ function CalcForm (props) {
             addColor: addColor,
             finish: finish
      }).then((result)=> {
+        console.log("Result: species: ",species);
+        props.onChangeSpecies(species);
+
         console.log("result.data.cost: ",result.data.cost);
         // pass costResult back to parent using handler passed in - how?
         props.onChangeValue(result.data.cost);
